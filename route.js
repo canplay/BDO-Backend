@@ -1,7 +1,10 @@
 async function routes(fastify, options) {
-  //   const database = fastify.mongo.db;
-  //   const collection = database.collection("accounts");
+  const database = fastify.mongo.db("loginserver");
+  const collection = database.collection("accounts");
   const svgCaptcha = require("svg-captcha");
+  let userList = [];
+
+  // removeUser();
 
   fastify.get("/", async (request, reply) => {
     return {
@@ -67,28 +70,63 @@ async function routes(fastify, options) {
           href: "http://www.baidu.com"
         }
       ],
-      update: "http://127.0.0.1/update.exe",
+      update: "http://60.160.237.49/update.exe",
       version: "1.0.2",
-      server: "127.0.0.1"
+      server: "60.160.237.49"
     };
   });
 
   fastify.get("/captcha", async (request, reply) => {
+    let id = request.id + new Date(Date.now()).getTime();
     let captcha = svgCaptcha.create();
-    reply
-      .type("svg")
-      .code(200)
-      .send(captcha.text);
+
+    userList.push({ id: id, captcha: captcha.text });
+
+    return {
+      id: id,
+      captcha: captcha.text
+    };
   });
 
-  fastify.get("/register/:username", async (request, reply) => {
-      return request.params.username + " - " + request.params.password + " - " + request.params.captcha;
-    // const result = await collection.findOne({ id: request.params.id });
-    // if (result.value === null) {
-    //   throw new Error("Invalid value");
-    // }
-    // return result.value;
+  fastify.get("/register/:id/:captcha/:username/:password", async (request, reply) => {
+    let result;
+
+    if (userList.length <= 0) result = "id error";
+
+    for (let index = 0; index < userList.length; index++) {
+      if (userList[index].id != request.params.id) {
+        result = "id error"
+        break;
+      }
+      else {
+        if (userList[index].captcha != request.params.captcha) {
+          result = "captcha error"
+          break;
+        }
+
+        // result = await collection.findOne({ accountName: request.params.username })
+        // if (result._id === null) {
+
+        // collection.insertOne(myobj, function(err, res) {
+        //   if (err) return err;
+        return "success";
+        // });
+        // }
+        // else {
+        //   return "username exist";
+        // }
+      }
+    };
+
+    return "";
   });
+
+  function removeUser() {
+    console.log(userList);
+    userList.pop();
+    console.log(userList);
+    setTimeout(removeUser, 18000);
+  };
 }
 
 module.exports = routes;

@@ -1,6 +1,6 @@
 async function routes(fastify, options) {
-  const database = fastify.mongo.db("loginserver");
-  const collection = database.collection("accounts");
+  // const database = fastify.mongo.db("loginserver");
+  // const collection = database.collection("accounts");
   const svgCaptcha = require("svg-captcha");
   let userList = [];
 

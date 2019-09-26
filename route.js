@@ -4,7 +4,7 @@ async function routes(fastify, options) {
   const svgCaptcha = require("svg-captcha");
   let userList = [];
 
-  // removeUser();
+  removeUser();
 
   fastify.get("/", async (request, reply) => {
     return {
@@ -88,45 +88,41 @@ async function routes(fastify, options) {
     };
   });
 
-  fastify.get("/register/:id/:captcha/:username/:password", async (request, reply) => {
-    let result;
+  fastify.get(
+    "/register/:id/:captcha/:username/:password",
+    async (request, reply) => {
+      if (userList.length <= 0) return "id error";
 
-    if (userList.length <= 0) result = "id error";
+      for (let index = 0; index < userList.length; index++) {
+        if (userList[index].id === request.params.id) {
+          if (userList[index].captcha != request.params.captcha) {
+            return "captcha error";
+          }
 
-    for (let index = 0; index < userList.length; index++) {
-      if (userList[index].id != request.params.id) {
-        result = "id error"
-        break;
-      }
-      else {
-        if (userList[index].captcha != request.params.captcha) {
-          result = "captcha error"
-          break;
+          // result = await collection.findOne({ accountName: request.params.username })
+          // if (result._id === null) {
+
+          // collection.insertOne(myobj, function(err, res) {
+          //   if (err) return err;
+          return "success";
+          // });
+          // }
+          // else {
+          //   return "username exist";
+          // }
         }
-
-        // result = await collection.findOne({ accountName: request.params.username })
-        // if (result._id === null) {
-
-        // collection.insertOne(myobj, function(err, res) {
-        //   if (err) return err;
-        return "success";
-        // });
-        // }
-        // else {
-        //   return "username exist";
-        // }
       }
-    };
 
-    return "";
-  });
+      return "id error";
+    }
+  );
 
   function removeUser() {
     console.log(userList);
     userList.pop();
     console.log(userList);
     setTimeout(removeUser, 18000);
-  };
+  }
 }
 
 module.exports = routes;

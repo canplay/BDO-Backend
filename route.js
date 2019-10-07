@@ -1,6 +1,13 @@
 async function routes(fastify, options) {
-  const database = fastify.mongo.db("loginserver");
-  const collection = database.collection("accounts");
+  const loginserver = fastify.mongo.db("loginserver");
+  const accountsCol = loginserver.collection("accounts");
+
+  const web = fastify.mongo.db("web");
+  const newsCol = web.collection("news");
+  const slideCol = web.collection("slide");
+  const configCol = web.collection("config");
+  const markdownCol = web.collection("markdown");
+
   const svgCaptcha = require("svg-captcha");
   const bcrypt = require("bcrypt");
 
@@ -9,74 +16,48 @@ async function routes(fastify, options) {
 
   // removeUser();
 
-  fastify.get("/", async (request, reply) => {
-    return {
-      news: [
-        {
-          title: "test new 1",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 2",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 3",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 4",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 5",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 6",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 7",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test new 8",
-          icon: "bluetooth",
-          href: "http://www.baidu.com"
-        }
-      ],
-      banner: [
-        {
-          title: "test 1",
-          img:
-            "http://img.kuai8.com/attaches/news/image/20170721/20170721144812_26064.jpg",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test 2",
-          img:
-            "http://s1.pearlcdn.com/Upload/Community/ecce4e8d47220180428001515606.jpg",
-          href: "http://www.baidu.com"
-        },
-        {
-          title: "test 3",
-          img:
-            "http://s1.pearlcdn.com/Upload/WALLPAPER/d5e8846471920170327181306477.jpg",
-          href: "http://www.baidu.com"
-        }
-      ],
-      update: "http://127.0.0.1/update.exe",
-      version: "1.0.2",
-      server: "127.0.0.1"
-    };
+  fastify.get("/home/:type", async (request, reply) => {
+    let value;
+
+    switch (request.params.type) {
+      case "news":
+          value = await newsCol.find();
+          break;
+      case "slide":
+          value = await slideCol.find();
+          break;
+      case "config":
+          value = await configCol.find();
+          break;
+    }
+
+    if (value === null) reply.code(404);
+      
+    value.toArray(function(err, result) {
+      if (err) throw err;
+      reply.send(result);
+    })
+  });
+
+  fastify.get("/markdown", async (request, reply) => {
+    let value = await markdownCol.find();
+
+    if (value === null) reply.code(404);
+    
+    value.toArray(function(err, result) {
+      if (err) throw err;
+      reply.send(result);
+    })
+  });
+
+  fastify.get("/news/:id", async (request, reply) => {
+    let ObjectId = require('mongodb').ObjectId;
+
+    let value = await newsCol.findOne({ _id: ObjectId(request.params.id) });
+
+    if (value === null) reply.code(404);
+    
+    reply.send(value);
   });
 
   fastify.get("/captcha", async (request, reply) => {
@@ -124,15 +105,15 @@ async function routes(fastify, options) {
     };
   }
 
-  fastify.get("/register/:id/:captcha/:username/:password", async (request, reply) => {
-    let result = check(request.params.id, request.params.captcha);
+  fastify.get("/register/:username/:password", async (request, reply) => {
+    // let result = check(request.params.id, request.params.captcha);
 
-    if (result.status === "success") {
-      let value = await collection.findOne({ accountName: request.params.username })
+    // if (result.status === "success") {
+      let value = await accountsCol.findOne({ accountName: request.params.username })
 
       if (value != null) return "username exit";
 
-      let col = await collection.find().sort({ _id: -1 });
+      let col = await accountsCol.find().sort({ _id: -1 });
       // let index = 0;
       // col.forEach(item => {
       //   if (index < item._id) index = item._id;
@@ -151,21 +132,33 @@ async function routes(fastify, options) {
       account.registrationDate = long.fromNumber(Date.now());
       account.host = request.ip;
 
-      value = await collection.insertOne(account);
+      value = await accountsCol.insertOne(account);
 
       if (value == null) return "failed";
       else if (!value.result.ok) return "failed";
 
-      userList.splice(userList.indexOf(result.id), 1);
+      userList.pop();
 
       return "success";
-    }
+    // }
 
-    return result.status;
+    // return result.status;
   });
 
   fastify.get("/login/:username/:password", async (request, reply) => {
-    let value = await collection.findOne({ accountName: request.params.username });
+    let value = await accountsCol.findOne({ accountName: request.params.username });
+
+    if (value != null) {
+      if (!bcrypt.compareSync(request.params.password, value.password))
+        return "password error";
+      return "success";
+    }
+
+    return "username error";
+  });
+
+  fastify.get("/admin/:info", async (request, reply) => {
+    let value = await accountsCol.findOne({ accountName: request.params.username });
 
     if (value != null) {
       if (!bcrypt.compareSync(request.params.password, value.password))

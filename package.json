@@ -1,10 +1,11 @@
 {
-  "name": "bdo-website",
+  "name": "bdo-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "bin": "./server.js",
   "scripts": {
+    "lint": "eslint --fix --ext .js ./",
     "start": "node server.js",
     "pkg": "pkg . -o server",
     "pm2": "pm2 start pm2.json"
@@ -15,11 +16,14 @@
     "@types/node": "^12.7.7",
     "bcrypt": "^3.0.6",
     "fastify": "^2.8.0",
+    "fastify-compress": "^0.11.0",
     "fastify-cors": "^2.1.3",
     "fastify-mongodb": "^2.0.0",
+    "fastify-oauth2": "^2.3.0",
     "fastify-static": "^2.5.0",
+    "pm2": "^3.5.1",
     "svg-captcha": "^1.4.0",
-    "pm2": "^3.5.1"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "pkg": "^4.4.0"

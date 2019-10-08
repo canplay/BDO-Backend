@@ -1,173 +1,173 @@
 {
-    "_id": 0,
-    "accountName": "",
-    "email": "",
-    "password": "",
-    "pin": "0",
-    "family": "",
-    "accessLvl": 0,
-    "characterSlots": 0,
-    "cash": 0,
-    "confirmationHash": "",
-    "changePasswordHash": "",
-    "registrationDate": "",
-    "host": "",
-    "gameOption": {
-        "gameOptionData": null
+  "_id": 0,
+  "accountName": "",
+  "email": "",
+  "password": "",
+  "pin": "0",
+  "family": "",
+  "accessLvl": 0,
+  "characterSlots": 0,
+  "cash": 0,
+  "confirmationHash": "",
+  "changePasswordHash": "",
+  "registrationDate": "",
+  "host": "",
+  "gameOption": {
+    "gameOptionData": null
+  },
+  "uiInfo": {
+    "uiData": null
+  },
+  "macroses": [
+    {
+      "index": 0,
+      "type": 3,
+      "macrosData": ""
     },
-    "uiInfo": {
-        "uiData": null
+    {
+      "index": 1,
+      "type": 3,
+      "macrosData": ""
     },
-    "macroses": [
-        {
-            "index": 0,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 1,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 2,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 3,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 4,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 5,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 6,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 7,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 8,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 9,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 0,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 1,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 2,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 3,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 4,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 5,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 6,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 7,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 8,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 9,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 0,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 1,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 2,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 3,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 4,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 5,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 6,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 7,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 8,
-            "type": 3,
-            "macrosData": ""
-        },
-        {
-            "index": 9,
-            "type": 3,
-            "macrosData": ""
-        }
-    ]
+    {
+      "index": 2,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 3,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 4,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 5,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 6,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 7,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 8,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 9,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 0,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 1,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 2,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 3,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 4,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 5,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 6,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 7,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 8,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 9,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 0,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 1,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 2,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 3,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 4,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 5,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 6,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 7,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 8,
+      "type": 3,
+      "macrosData": ""
+    },
+    {
+      "index": 9,
+      "type": 3,
+      "macrosData": ""
+    }
+  ]
 }

@@ -32,7 +32,13 @@ fastify.register(require("./db"), {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-fastify.register(require("./route"));
+
+const moment = require("moment");
+moment.locale("zh-cn");
+
+fastify.register(require("./route"), {
+  time: moment().unix()
+});
 
 fastify.listen(3000, "0.0.0.0", function(err, address) {
   if (err) {

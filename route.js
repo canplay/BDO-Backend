@@ -11,6 +11,8 @@ async function routes(fastify, options) {
   const svgCaptcha = require("svg-captcha");
   const bcrypt = require("bcrypt");
 
+  const moment = require("moment");
+
   fastify.get("/home/:type", async (req, reply) => {
     let value;
 
@@ -46,7 +48,7 @@ async function routes(fastify, options) {
 
     let value = await newsCol.findOne({ _id: ObjectId(req.params.id) });
 
-    if (value === null) reply.code(404).send();
+    if (value === null) return { status: 0 };
 
     return { status: 1, msg: value };
   });
@@ -63,7 +65,7 @@ async function routes(fastify, options) {
 
     if (value != null) {
       if (!bcrypt.compareSync(req.body.password, value.password))
-        return { status: 0, msg: "password error"};
+        return { status: 0, msg: "password error" };
 
       const uuid = require("uuid/v4");
       return { status: 1, msg: uuid() + "-" + uuid() };
@@ -99,7 +101,42 @@ async function routes(fastify, options) {
     if (value == null) return { status: 0 };
     else if (!value.result.ok) return { status: 0 };
 
-    return { status: 1, msg: "success" };
+    const uuid = require("uuid/v4");
+    return { status: 1, msg: uuid() + "-" + uuid() };
+  });
+
+  fastify.post("/info", async (req, reply) => {
+    // if (!req.body.token) {
+    if (req.body.methond === "time") {
+      return {
+        status: 1,
+        msg: {
+          time: moment().unix(),
+          runtime: options.time
+        }
+      };
+    } else {
+      let value = await configCol.find();
+
+      if (value == null) return { status: 0 };
+
+      let result = await value.toArray();
+
+      return {
+        status: 1,
+        msg: {
+          time: moment().unix(),
+          runtime: options.time,
+          launcher: result[0].launcher,
+          version: result[0].version,
+          update: result[0].update
+        }
+      };
+    }
+    // }
+    // else {
+    //   return { status: 0 };
+    // }
   });
 }
 

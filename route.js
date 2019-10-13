@@ -105,38 +105,100 @@ async function routes(fastify, options) {
     return { status: 1, msg: uuid() + "-" + uuid() };
   });
 
-  fastify.post("/info", async (req, reply) => {
-    // if (!req.body.token) {
-    if (req.body.methond === "time") {
-      return {
-        status: 1,
-        msg: {
-          time: moment().unix(),
-          runtime: options.time
-        }
-      };
-    } else {
-      let value = await configCol.find();
+  fastify.post("/overview", async (req, reply) => {
+    if (!req.body.token) return { status: 0 };
 
-      if (value == null) return { status: 0 };
+    let ObjectId = require("mongodb").ObjectId;
+    let value, result;
 
-      let result = await value.toArray();
+    switch (req.body.methond) {
+      case "time":
+        return {
+          status: 1,
+          msg: {
+            time: moment().unix(),
+            runtime: options.time
+          }
+        };
+      case "save":
+        configCol.updateOne(
+          { _id: ObjectId("5d9a3741a47c000074001b06") },
+          {
+            $set: {
+              version: req.body.version,
+              update: req.body.update,
+              launcher: req.body.launcher,
+              server: req.body.server,
+              forum: req.body.forum,
+              discord: req.body.discord,
+              facebook: req.body.facebook,
+              twitter: req.body.twitter,
+              weibo: req.body.weibo,
+              weixin: req.body.weixin
+            }
+          },
+          function(err, res) {
+            if (err) return { status: 0, msg: err };
+            return { status: 1 };
+          }
+        );
 
-      return {
-        status: 1,
-        msg: {
-          time: moment().unix(),
-          runtime: options.time,
-          launcher: result[0].launcher,
-          version: result[0].version,
-          update: result[0].update
-        }
-      };
+        return { status: 1 };
+      case "download":
+        markdownCol.updateOne(
+          { _id: ObjectId("5d9b1e0dad46000091007c02") },
+          {
+            $set: {
+              download: req.body.markdown
+            }
+          },
+          function(err, res) {
+            if (err) return { status: 0, msg: err };
+            return { status: 1 };
+          }
+        );
+
+        return { status: 1 };
+      case "about":
+        markdownCol.updateOne(
+          { _id: ObjectId("5d9b1e0dad46000091007c02") },
+          {
+            $set: {
+              about: req.body.markdown
+            }
+          },
+          function(err, res) {
+            if (err) return { status: 0, msg: err };
+            return { status: 1 };
+          }
+        );
+
+        return { status: 1 };
+      default:
+        value = await configCol.find();
+
+        if (value == null) return { status: 0 };
+
+        result = await value.toArray();
+
+        return {
+          status: 1,
+          msg: {
+            time: moment().unix(),
+            runtime: options.time,
+            launcher: result[0].launcher,
+            version: result[0].version,
+            update: result[0].update,
+            server: result[0].server,
+            forum: result[0].forum,
+            discord: result[0].discord,
+            facebook: result[0].facebook,
+            twitter: result[0].twitter,
+            weibo: result[0].weibo,
+            weixin: result[0].weixin
+          }
+        };
     }
-    // }
-    // else {
-    //   return { status: 0 };
-    // }
   });
 }
 
